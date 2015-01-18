@@ -24,9 +24,10 @@ import java.io.IOException;
 public class TestIndex {
 
     public static void main(String[] args) throws IOException {
-        String[] ids = {"1","2","3"};
-        String[] names = {"zhangsan","lisi","wangwu"};
-        String[] addresses = {"shanghai","beijing","guangzhou"};
+        String[] ids = {"1","2","3","4"};
+        String[] names = {"zhangsan","lisi","wangwu","zhaoliu"};
+        String[] addresses = {"shanghai","beijing","guangzhou","tianjin"};
+        String[] birthdays = {"19820123","19900113","19890523","19870512"};
         Analyzer analyzer = new StandardAnalyzer();
         String indexDir = "C:\\Users\\xin\\Desktop\\csdn\\lucenedata" ;
         Directory dir = FSDirectory.getDirectory(indexDir);
@@ -38,6 +39,7 @@ public class TestIndex {
             document.add(new Field("id", ids[i], Field.Store.YES, Field.Index.ANALYZED));
             document.add(new Field("name", names[i], Field.Store.YES, Field.Index.NO));
             document.add(new Field("address", addresses[i], Field.Store.YES, Field.Index.ANALYZED));
+            document.add(new Field("birthday", birthdays[i], Field.Store.YES, Field.Index.NO));
             writer.addDocument(document);
         }
         writer.optimize();//索引段的合并

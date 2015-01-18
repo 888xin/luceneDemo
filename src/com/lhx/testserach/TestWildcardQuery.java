@@ -1,13 +1,8 @@
 package com.lhx.testserach;
 
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
@@ -24,21 +19,20 @@ import java.io.IOException;
  * @github https://github.com/888xin
  */
 
-public class TestSerach {
+public class TestWildcardQuery {
     public static void main(String[] args) throws IOException {
-        Analyzer analyzer = new StandardAnalyzer();
         String indexDir = "C:\\Users\\xin\\Desktop\\csdn\\lucenedata" ;
         Directory dir = FSDirectory.getDirectory(indexDir);
         IndexSearcher searcher = new IndexSearcher(dir);
         ScoreDoc[] hits = null ;
-        //Term term = new Term("id", "2");
-        Term term = new Term("address", "tianjin");
-        TermQuery query = new TermQuery(term);
-        TopDocs topDocs = searcher.search(query, 4) ;
+//        Term term = new Term("name", "zhang*");
+//        Term term = new Term("name", "*in");
+        Term term = new Term("name", "*g??n");
+        WildcardQuery query = new WildcardQuery(term) ;
+        TopDocs topDocs = searcher.search(query, 3) ;
         hits = topDocs.scoreDocs ;
         for (int i = 0; i < hits.length; i++) {
             Document doc = searcher.doc(hits[i].doc);
-            System.out.print(hits[i].score + " ");
             System.out.print(doc.get("id") + " ");
             System.out.print(doc.get("name") + " ");
             System.out.print(doc.get("address") + " ");

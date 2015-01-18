@@ -35,9 +35,13 @@ public class UpdateDocument {
         reader.close();
         IndexWriter writer = new IndexWriter(directory, analyzer, false, IndexWriter.MaxFieldLength.LIMITED);
         Document  document = new Document() ;
+        Field field = new Field("id", "2", Field.Store.YES, Field.Index.ANALYZED) ;
+        field.setBoost(1.5f);//这个字段比较重要
+        document.add(field);
         document.add(new Field("id", "2", Field.Store.YES, Field.Index.ANALYZED));
         document.add(new Field("name", "Tom", Field.Store.YES, Field.Index.NO));
         document.add(new Field("address", "tianjin", Field.Store.YES, Field.Index.ANALYZED));
+        document.setBoost(1.5f); //重要程度高，设置的值就大
         writer.addDocument(document);
         writer.close();
         reader = IndexReader.open(directory);
